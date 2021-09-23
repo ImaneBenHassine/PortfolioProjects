@@ -1,11 +1,11 @@
 -- Data source Parch & Posey
 -- https://video.udacity-data.com/topher/2020/May/5eb5533b_parch-and-posey/parch-and-posey.sql
 -- In the Parch & Posey database there are five tables (essentially 5 spreadsheets):
---1.	web_events
---2.	accounts
---3.	orders
---4.	sales_reps
---5.	region
+	web_events
+	accounts
+	orders
+	sales_reps
+	region
 --Skills : SQL Basics ,Joins, AAggregate functions, SUBQUERY ,Temporary Tables, Clean and re-structure messy data, Convert columns to different data types, Tricks for manipulating NULLs.
 
 
@@ -65,9 +65,9 @@ WHERE (name LIKE 'C%' OR name LIKE 'W%')
            AND primary_poc NOT LIKE '%eana%');
 
 --Database Normalization
-Are the tables storing logical groupings of the data?
-Can I make changes in a single location, rather than in many tables for the same information?
-Can I access and manipulate data quickly and efficiently?
+--Are the tables storing logical groupings of the data?
+--Can I make changes in a single location, rather than in many tables for the same information?
+--Can I access and manipulate data quickly and efficiently?
 
 --Provide a table for all web_events associated with account name of Walmart. There should be three columns. Be sure to include the primary_poc, time of the event, and the channel for each event. Additionally, you might choose to add a fourth column to assure only Walmart events were chosen
 SELECT a.primary_poc, w.occurred_at, w.channel, a.name
@@ -86,15 +86,14 @@ ON a.sales_rep_id = s.id
 ORDER BY a.name;
 
 --Provide the name for each region for every order, as well as the account name and the unit price they paid (total_amt_usd/total) for the order. Your final table should have 3 columns: region name, account name, and unit price.
-3.	SELECT r.name region, a.name account, 
-4.	       o.total_amt_usd/(o.total + 0.01) unit_price --A few accounts have 0 for total, so I divided by (total + 0.01) to assure not dividing by zero.
-5.	FROM region r
-6.	JOIN sales_reps s
-7.	ON s.region_id = r.id
-8.	JOIN accounts a
-9.	ON a.sales_rep_id = s.id
-10.	JOIN orders o
-11.	ON o.account_id = a.id;
+SELECT r.name region, a.name account, o.total_amt_usd/(o.total + 0.01) unit_price --A few accounts have 0 for total, so I divided by (total + 0.01) to assure not dividing by zero.
+FROM region r
+JOIN sales_reps s
+ON s.region_id = r.id
+JOIN accounts a
+ON a.sales_rep_id = s.id
+JOIN orders o
+ON o.account_id = a.id;
 
 --Provide a table that provides the region for each sales_rep along with their associated accounts. This time only for accounts where the sales rep has a last name starting with K and in the Midwest region. Your final table should include three columns: the region name, the sales rep name, and the account name. Sort the accounts alphabetically (A-Z) according to account name.
 SELECT r.name region, s.name rep, a.name account
@@ -327,7 +326,7 @@ LIMIT 1;
 
 --CASE 
 
---Write a query to display for each order, the account ID, total amount of the order, and the level of the order - ‘Large’ or ’Small’ - depending on if the order is $3000 or more, or less than $3000.
+--Write a query to display for each order, the account ID, total amount of the order, and the level of the order - Â‘LargeÂ’ or Â’SmallÂ’ - depending on if the order is $3000 or more, or less than $3000.
 SELECT account_id, total_amt_usd,
 CASE WHEN total_amt_usd > 3000 THEN 'Large'
 ELSE 'Small' END AS order_level
@@ -385,6 +384,7 @@ ORDER BY 2 DESC;
 
 --Provide the name of the sales_rep in each region with the largest amount of total_amt_usd sales.
 --First, I wanted to find the total_amt_usd totals associated with each sales rep, and I also wanted the region in which they were located
+
 SELECT s.name rep_name, r.name region_name, SUM(o.total_amt_usd) total_amt
 FROM sales_reps s
 JOIN accounts a
@@ -395,6 +395,7 @@ JOIN region r
 ON r.id = s.region_id
 GROUP BY 1,2
 ORDER BY 3 DESC;
+
 --Next, I pulled the max for each region, and then we can use this to pull those rows in our final result.
 SELECT region_name, MAX(total_amt) total_amt
 FROM(SELECT s.name rep_name, r.name region_name, SUM(o.total_amt_usd) total_amt
@@ -409,6 +410,7 @@ FROM(SELECT s.name rep_name, r.name region_name, SUM(o.total_amt_usd) total_amt
 GROUP BY 1;
 
 --a JOIN of these two tables, where the region and amount match.
+
 SELECT t3.rep_name, t3.region_name, t3.total_amt
 FROM(SELECT region_name, MAX(total_amt) total_amt
      FROM(SELECT s.name rep_name, r.name region_name, SUM(o.total_amt_usd) total_amt
@@ -436,6 +438,7 @@ ON t3.region_name = t2.region_name AND t3.total_amt = t2.total_amt;
 --For the region with the largest sales total_amt_usd, how many total orders were placed?
 
 --The first query I wrote was to pull the total_amt_usd for each region.
+
 SELECT r.name region_name, SUM(o.total_amt_usd) total_amt
 FROM sales_reps s
 JOIN accounts a
@@ -445,7 +448,9 @@ ON o.account_id = a.id
 JOIN region r
 ON r.id = s.region_id
 GROUP BY r.name;
+
 --Then we just want the region with the max amount from this table. There are two ways I considered getting this amount. One was to pull the max using a subquery. Another way is to order descending and just pull the top value.
+
 SELECT MAX(total_amt)
 FROM (SELECT r.name region_name, SUM(o.total_amt_usd) total_amt
              FROM sales_reps s
@@ -456,7 +461,9 @@ FROM (SELECT r.name region_name, SUM(o.total_amt_usd) total_amt
              JOIN region r
              ON r.id = s.region_id
              GROUP BY r.name) sub;
+             
 --Finally, we want to pull the total orders for the region with this amount:
+
 SELECT r.name, COUNT(o.total) total_orders
 FROM sales_reps s
 JOIN accounts a
@@ -481,6 +488,7 @@ HAVING SUM(o.total_amt_usd) = (
 --How many accounts had more total purchases than the account name which has bought the most standard_qty paper throughout their lifetime as a customer?
 
 --First, we want to find the account that had the most standard_qty paper. The query here pulls that account, as well as the total amount:
+
 SELECT a.name account_name, SUM(o.standard_qty) total_std, SUM(o.total) total
 FROM accounts a
 JOIN orders o
@@ -488,7 +496,9 @@ ON o.account_id = a.id
 GROUP BY 1
 ORDER BY 2 DESC
 LIMIT 1;
+
 --Now, I want to use this to pull all the accounts with more total sales:
+
 SELECT a.name
 FROM orders o
 JOIN accounts a
@@ -503,6 +513,7 @@ HAVING SUM(o.total) > (SELECT total
                          ORDER BY 2 DESC
                          LIMIT 1) sub);
 --This is now a list of all the accounts with more total orders. We can get the count with just another simple subquery.
+
 SELECT COUNT(*)
 FROM (SELECT a.name
        FROM orders o
@@ -522,6 +533,7 @@ FROM (SELECT a.name
 --For the customer that spent the most (in total over their lifetime as a customer) total_amt_usd, how many web_events did they have for each channel?
 
 --Here, we first want to pull the customer with the most spent in lifetime value.
+
 SELECT a.id, a.name, SUM(o.total_amt_usd) tot_spent
 FROM orders o
 JOIN accounts a
@@ -530,6 +542,7 @@ GROUP BY a.id, a.name
 ORDER BY 3 DESC
 LIMIT 1;
 --Now, we want to look at the number of events on each channel this company had, which we can match with just the id.
+
 SELECT a.name, w.channel, COUNT(*)
 FROM accounts a
 JOIN web_events w
@@ -547,6 +560,7 @@ ORDER BY 3 DESC;
 --What is the lifetime average amount spent in terms of total_amt_usd for the top 10 total spending accounts?
 
 --First, we just want to find the top 10 accounts in terms of highest total_amt_usd.
+
 SELECT a.id, a.name, SUM(o.total_amt_usd) tot_spent
 FROM orders o
 JOIN accounts a
@@ -555,6 +569,7 @@ GROUP BY a.id, a.name
 ORDER BY 3 DESC
 LIMIT 10;
 --Now, we just want the average of these 10 amounts.
+
 SELECT AVG(tot_spent)
 FROM (SELECT a.id, a.name, SUM(o.total_amt_usd) tot_spent
       FROM orders o
@@ -567,6 +582,7 @@ FROM (SELECT a.id, a.name, SUM(o.total_amt_usd) tot_spent
 --What is the lifetime average amount spent in terms of total_amt_usd, including only the companies that spent more per order, on average, than the average of all orders.
 
 --First, we want to pull the average of all accounts in terms of total_amt_usd:
+
 SELECT AVG(o.total_amt_usd) avg_all
 FROM orders o
 Then, we want to only pull the accounts with more than this average amount.
@@ -576,6 +592,7 @@ GROUP BY 1
 HAVING AVG(o.total_amt_usd) > (SELECT AVG(o.total_amt_usd) avg_all
                                FROM orders o);
 --Finally, we just want the average of these values.
+
 SELECT AVG(avg_amt)
 FROM (SELECT o.account_id, AVG(o.total_amt_usd) avg_amt
     FROM orders o
@@ -594,7 +611,9 @@ FROM (SELECT DATE_TRUNC('day',occurred_at) AS day,
       GROUP BY 1,2) sub
 GROUP BY channel
 ORDER BY 2 DESC;
+
 --using with :
+
 WITH events AS ( --aliasing the table 
           SELECT DATE_TRUNC('day',occurred_at) AS day, --the inner query
                         channel, COUNT(*) as events 
@@ -758,14 +777,18 @@ SELECT LEFT(name, STRPOS(name, ' ') -1 ) first_name,
        RIGHT(name, LENGTH(name) - STRPOS(name, ' ')) last_name
 FROM sales_reps;
 
---Each company in the accounts table wants to create an email address for each primary_poc. The email address should be the first name of the primary_poc . last name primary_poc @ company name .com.
+--Each company in the accounts table wants to create an email address for each primary_poc.
+--The email address should be the first name of the primary_poc . last name primary_poc @ company name .com.
+
 WITH t1 AS (
  SELECT LEFT(primary_poc,     STRPOS(primary_poc, ' ') -1 ) first_name,  RIGHT(primary_poc, LENGTH(primary_poc) - STRPOS(primary_poc, ' ')) last_name, name
  FROM accounts)
 SELECT first_name, last_name, CONCAT(first_name, '.', last_name, '@', name, '.com')
 FROM t1;
 
---some of the company names include spaces, which will certainly not work in an email address. See if you can create an email address that will work by removing all of the spaces in the account name
+--some of the company names include spaces, which will certainly not work in an email address. 
+--create an email address that will work by removing all of the spaces in the account name
+
 WITH t1 AS (
  SELECT LEFT(primary_poc,     STRPOS(primary_poc, ' ') -1 ) first_name,  RIGHT(primary_poc, LENGTH(primary_poc) - STRPOS(primary_poc, ' ')) last_name, name
  FROM accounts)
@@ -773,6 +796,7 @@ SELECT first_name, last_name, CONCAT(first_name, '.', last_name, '@', REPLACE(na
 FROM  t1;
 
 --COALESCE returns the first non-NULL value passed for each row
+
 SELECT *
 FROM accounts a
 LEFT JOIN orders o
