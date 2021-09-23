@@ -1,3 +1,9 @@
+/* 
+Covid 19 Data Exploration 
+Data Source:  https://ourworldindata.org/covid-deaths
+Skills : Aggregate Functions,Converting Data Types, Joins, CTE's, Temp Tables, Windows Functions, Creating Views
+*/
+
 Select *
 From PortfolioProjects..CovidDeaths
 Where continent is not null 
@@ -19,14 +25,12 @@ order by 1,2
 
 Select Location, Population, MAX(total_cases) as HighestInfectionCount,  Max((total_cases/population))*100 as PercentPopulationInfected
 From PortfolioProjects..CovidDeaths
---Where location like '%states%'
 Group by Location, Population
 order by PercentPopulationInfected desc
 
 -- Countries with Highest Infection Rate compared to Population
 Select Location, MAX(cast(Total_deaths as int)) as TotalDeathCount
 From PortfolioProjects..CovidDeaths
---Where location like '%states%'
 Where continent is not null 
 Group by Location
 order by TotalDeathCount desc
@@ -95,7 +99,7 @@ as
 (
 Select dea.continent, dea.location, dea.date, dea.population, vac.new_vaccinations -- same number of column as those in CTE
 , SUM(CONVERT(int,vac.new_vaccinations)) OVER (Partition by dea.Location Order by dea.location, dea.Date) as RollingPeopleVaccinated
---, (RollingPeopleVaccinated/population)*100, we can’t use a column just calculated to create another one
+--, (RollingPeopleVaccinated/population)*100, we canâ€™t use a column just calculated to create another one
 From PortfolioProjects..CovidDeaths dea
 Join PortfolioProjects..CovidVaccinations vac
 	On dea.location = vac.location
