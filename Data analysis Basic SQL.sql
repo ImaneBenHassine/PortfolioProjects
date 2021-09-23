@@ -6,7 +6,8 @@
 	orders
 	sales_reps
 	region
---Skills : SQL Basics ,Joins, AAggregate functions, SUBQUERY ,Temporary Tables, Clean and re-structure messy data, Convert columns to different data types, Tricks for manipulating NULLs.
+--Skills : SQL Basics ,Joins, AAggregate functions, SUBQUERY ,Temporary Tables, Clean and re-structure messy data, Convert columns to different data types, 
+--Tricks for manipulating NULLs.
 
 
 -- SELECT and FROM in Every SQL Query
@@ -22,7 +23,8 @@ order by 1
 LIMIT 10
 
 --Derived Columns
---we divide the standard paper dollar amount by the total order amount to find the standard paper percent for the order, and use the AS keyword to name this new column "std_percent." 
+--we divide the standard paper dollar amount by the total order amount to find the standard paper percent for the order, 
+--and use the AS keyword to name this new column "std_percent." 
 SELECT id, (standard_amt_usd/total_amt_usd)*100 AS std_percent, total_amt_usd
 FROM orders
 LIMIT 10;
@@ -45,12 +47,14 @@ SELECT occurred_at, gloss_qty
 FROM orders
 WHERE gloss_qty BETWEEN 24 AND 29 -- the BETWEEN operator in SQL is inclusive; that is, the endpoint values are included. 
 
---Use the web_events table to find all information regarding individuals who were contacted via the organic or adwords channels, and started their account at any point in 2016, sorted from newest to oldest.
+--Use the web_events table to find all information regarding individuals who were contacted via the organic or adwords channels,
+--and started their account at any point in 2016, sorted from newest to oldest.
 SELECT *
 FROM web_events
 WHERE channel IN ('organic', 'adwords') AND occurred_at BETWEEN '2016-01-01' AND '2017-01-01'
 ORDER BY occurred_at DESC;
---using BETWEEN is tricky for dates! While BETWEEN is generally inclusive of endpoints, it assumes the time is at 00:00:00 (i.e. midnight) for dates. This is the reason why we set the right-side endpoint of the period at '2017-01-01'.
+--using BETWEEN is tricky for dates! While BETWEEN is generally inclusive of endpoints, it assumes the time is at 00:00:00 (i.e. midnight) for dates. 
+--This is the reason why we set the right-side endpoint of the period at '2017-01-01'.
 
 --the OR operator can combine multiple statements. 
 SELECT *
@@ -69,14 +73,17 @@ WHERE (name LIKE 'C%' OR name LIKE 'W%')
 --Can I make changes in a single location, rather than in many tables for the same information?
 --Can I access and manipulate data quickly and efficiently?
 
---Provide a table for all web_events associated with account name of Walmart. There should be three columns. Be sure to include the primary_poc, time of the event, and the channel for each event. Additionally, you might choose to add a fourth column to assure only Walmart events were chosen
+--Provide a table for all web_events associated with account name of Walmart. There should be three columns. 
+--Be sure to include the primary_poc, time of the event, and the channel for each event. 
+--Additionally, you might choose to add a fourth column to assure only Walmart events were chosen
 SELECT a.primary_poc, w.occurred_at, w.channel, a.name
 FROM web_events w
 JOIN accounts a --Aliases for Columns in Resulting Table
 ON w.account_id = a.id
 WHERE a.name = 'Walmart';
 
---Provide a table that provides the region for each sales_rep along with their associated accounts. Your final table should include three columns: the region name, the sales rep name, and the account name. Sort the accounts alphabetically (A-Z) according to account name.
+--Provide a table that provides the region for each sales_rep along with their associated accounts. 
+--Your final table should include three columns: the region name, the sales rep name, and the account name. Sort the accounts alphabetically (A-Z) according to account name.
 SELECT r.name region, s.name rep, a.name account
 FROM sales_reps s
 JOIN region r
@@ -85,7 +92,8 @@ JOIN accounts a
 ON a.sales_rep_id = s.id
 ORDER BY a.name;
 
---Provide the name for each region for every order, as well as the account name and the unit price they paid (total_amt_usd/total) for the order. Your final table should have 3 columns: region name, account name, and unit price.
+--Provide the name for each region for every order, as well as the account name and the unit price they paid (total_amt_usd/total) for the order.
+--Your final table should have 3 columns: region name, account name, and unit price.
 SELECT r.name region, a.name account, o.total_amt_usd/(o.total + 0.01) unit_price --A few accounts have 0 for total, so I divided by (total + 0.01) to assure not dividing by zero.
 FROM region r
 JOIN sales_reps s
@@ -95,7 +103,8 @@ ON a.sales_rep_id = s.id
 JOIN orders o
 ON o.account_id = a.id;
 
---Provide a table that provides the region for each sales_rep along with their associated accounts. This time only for accounts where the sales rep has a last name starting with K and in the Midwest region. Your final table should include three columns: the region name, the sales rep name, and the account name. Sort the accounts alphabetically (A-Z) according to account name.
+--Provide a table that provides the region for each sales_rep along with their associated accounts.
+--This time only for accounts where the sales rep has a last name starting with K and in the Midwest region. 
 SELECT r.name region, s.name rep, a.name account
 FROM sales_reps s
 JOIN region r
@@ -134,7 +143,8 @@ FROM accounts;
 SELECT SUM(poster_qty) AS total_poster_sales
 FROM orders;
 
---Find the total amount for each individual order that was spent on standard and gloss paper in the orders table. This should give a dollar amount for each order in the table.
+--Find the total amount for each individual order that was spent on standard and gloss paper in the orders table. 
+--This should give a dollar amount for each order in the table.
 --Notice, this solution did not use an aggregate.
 SELECT standard_amt_usd + gloss_amt_usd AS total_standard_gloss
 FROM orders;
@@ -326,13 +336,15 @@ LIMIT 1;
 
 --CASE 
 
---Write a query to display for each order, the account ID, total amount of the order, and the level of the order - Large or Small - depending on if the order is $3000 or more, or less than $3000.
+--Write a query to display for each order, the account ID, total amount of the order, and the level of the order - Large or Small -
+--depending on if the order is $3000 or more, or less than $3000.
 SELECT account_id, total_amt_usd,
 CASE WHEN total_amt_usd > 3000 THEN 'Large'
 ELSE 'Small' END AS order_level
 FROM orders;
 
---Write a query to display the number of orders in each of three categories, based on the total number of items in each order. The three categories are: 'At Least 2000', 'Between 1000 and 2000' and 'Less than 1000'.
+--Write a query to display the number of orders in each of three categories, based on the total number of items in each order.
+--The three categories are: 'At Least 2000', 'Between 1000 and 2000' and 'Less than 1000'.
 SELECT CASE WHEN total >= 2000 THEN 'At Least 2000'
    WHEN total >= 1000 AND total < 2000 THEN 'Between 1000 and 2000'
    ELSE 'Less than 1000' END AS order_category,
@@ -351,7 +363,8 @@ ON o.account_id = a.id
 GROUP BY a.name
 ORDER BY 2 DESC;
 
---We would like to identify top performing sales reps, which are sales reps associated with more than 200 orders. Create a table with the sales rep name, the total number of orders, and a column with top or not depending on if they have more than 200 orders.
+--We would like to identify top performing sales reps, which are sales reps associated with more than 200 orders. 
+--Create a table with the sales rep name, the total number of orders, and a column with top or not depending on if they have more than 200 orders.
 SELECT s.name, COUNT(*) num_ords,
      CASE WHEN COUNT(*) > 200 THEN 'top'
      ELSE 'not' END AS sales_rep_level
@@ -449,7 +462,8 @@ JOIN region r
 ON r.id = s.region_id
 GROUP BY r.name;
 
---Then we just want the region with the max amount from this table. There are two ways I considered getting this amount. One was to pull the max using a subquery. Another way is to order descending and just pull the top value.
+--Then we just want the region with the max amount from this table. There are two ways I considered getting this amount.
+--One was to pull the max using a subquery. Another way is to order descending and just pull the top value.
 
 SELECT MAX(total_amt)
 FROM (SELECT r.name region_name, SUM(o.total_amt_usd) total_amt
@@ -809,13 +823,19 @@ LEFT JOIN orders o
 ON a.id = o.account_id
 WHERE o.total IS NULL;
 
-SELECT COALESCE(o.id, a.id) filled_id, a.name, a.website, a.lat, a.long, a.primary_poc, a.sales_rep_id, COALESCE(o.account_id, a.id) account_id, o.occurred_at, o.standard_qty, o.gloss_qty, o.poster_qty, o.total, o.standard_amt_usd, o.gloss_amt_usd, o.poster_amt_usd, o.total_amt_usd
+SELECT COALESCE(o.id, a.id) filled_id, a.name, a.website, a.lat, a.long, a.primary_poc, a.sales_rep_id, 
+COALESCE(o.account_id, a.id) account_id, o.occurred_at, o.standard_qty, o.gloss_qty, o.poster_qty,
+o.total, o.standard_amt_usd, o.gloss_amt_usd, o.poster_amt_usd, o.total_amt_usd
 FROM accounts a
 LEFT JOIN orders o
 ON a.id = o.account_id
 WHERE o.total IS NULL;
 
-SELECT COALESCE(o.id, a.id) filled_id, a.name, a.website, a.lat, a.long, a.primary_poc, a.sales_rep_id, COALESCE(o.account_id, a.id) account_id, o.occurred_at, COALESCE(o.standard_qty, 0) standard_qty, COALESCE(o.gloss_qty,0) gloss_qty, COALESCE(o.poster_qty,0) poster_qty, COALESCE(o.total,0) total, COALESCE(o.standard_amt_usd,0) standard_amt_usd, COALESCE(o.gloss_amt_usd,0) gloss_amt_usd, COALESCE(o.poster_amt_usd,0) poster_amt_usd, COALESCE(o.total_amt_usd,0) total_amt_usd
+SELECT COALESCE(o.id, a.id) filled_id, a.name, a.website, a.lat, a.long, a.primary_poc, a.sales_rep_id,
+COALESCE(o.account_id, a.id) account_id, o.occurred_at, COALESCE(o.standard_qty, 0) standard_qty, 
+COALESCE(o.gloss_qty,0) gloss_qty, COALESCE(o.poster_qty,0) poster_qty, COALESCE(o.total,0) total, 
+COALESCE(o.standard_amt_usd,0) standard_amt_usd, COALESCE(o.gloss_amt_usd,0) gloss_amt_usd, COALESCE(o.poster_amt_usd,0) poster_amt_usd,
+COALESCE(o.total_amt_usd,0) total_amt_usd
 FROM accounts a
 LEFT JOIN orders o
 ON a.id = o.account_id
@@ -826,7 +846,11 @@ FROM accounts a
 LEFT JOIN orders o
 ON a.id = o.account_id;
 
-SELECT COALESCE(o.id, a.id) filled_id, a.name, a.website, a.lat, a.long, a.primary_poc, a.sales_rep_id, COALESCE(o.account_id, a.id) account_id, o.occurred_at, COALESCE(o.standard_qty, 0) standard_qty, COALESCE(o.gloss_qty,0) gloss_qty, COALESCE(o.poster_qty,0) poster_qty, COALESCE(o.total,0) total, COALESCE(o.standard_amt_usd,0) standard_amt_usd, COALESCE(o.gloss_amt_usd,0) gloss_amt_usd, COALESCE(o.poster_amt_usd,0) poster_amt_usd, COALESCE(o.total_amt_usd,0) total_amt_usd
+SELECT COALESCE(o.id, a.id) filled_id, a.name, a.website, a.lat, a.long, a.primary_poc, a.sales_rep_id, 
+COALESCE(o.account_id, a.id) account_id, o.occurred_at, COALESCE(o.standard_qty, 0) standard_qty, 
+COALESCE(o.gloss_qty,0) gloss_qty, COALESCE(o.poster_qty,0) poster_qty, COALESCE(o.total,0) total, 
+COALESCE(o.standard_amt_usd,0) standard_amt_usd, COALESCE(o.gloss_amt_usd,0) gloss_amt_usd, 
+COALESCE(o.poster_amt_usd,0) poster_amt_usd, COALESCE(o.total_amt_usd,0) total_amt_usd
 FROM accounts a
 LEFT JOIN orders o
 ON a.id = o.account_id;
