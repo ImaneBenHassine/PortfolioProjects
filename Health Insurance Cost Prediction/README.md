@@ -31,5 +31,9 @@ TABLE OF CONTENTS :
 
 
 Conclusion: like we previously noticed smoking is the greatest factor that affects medical cost charges, then it's bmi and age or localisation.
-GradientBoostingRegressor turned out to be the best model and before the deployement we trained it on the entire dataset and save it using joblib. 
+
+GradientBoostingRegressor turned out to be the best model and before the deployement we trained it on the entire dataset and save it using joblib.
+
 Finally, we create a Graphical User Interface using Tkinter package where we enter the dependent variables and it returned the predictable value of charges by pressing the button predict.
+
+![insurance](https://user-images.githubusercontent.com/26963240/140522884-c97e8c43-fce3-4504-bfe1-35b87c19918b.png)
