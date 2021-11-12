@@ -43,18 +43,78 @@ Finally, we create a Graphical User Interface using Tkinter package where we ent
 
 The next step will be creation a Web App for this ML algorithm so any one can use it and make prediction of Health Insurance Cost.
 
-# Web App fo ML
-We will be using Streamlit which is an open source Python library that turns data scripts into shareable web apps in minutes.
+# Web App for ML
+- using Streamlit which is an open source Python library that turns data scripts into shareable web apps in minutes.
+- using Anaconda Spyder as Python IDE because all the library for machine learning and data science are pre-install
 
-To install : 
+To install Streamlit run in Anaconda prompt : 
 
           pip install streamlit
-          streamlit hello
+          streamlit hello # to check demo app of streamlit
+![streamlit](https://user-images.githubusercontent.com/26963240/141477417-8f6753eb-1007-41c3-8286-cac94bdcea36.png)
+
+- Create Health_Insurance.py in Spyder 
+
+For now it contains only the html header in the main(), bu runing streamlit run Health_Insurance.py anaconda prompt, the Streamlit app in browser look like this :
+
+![run health st](https://user-images.githubusercontent.com/26963240/141482709-3025e045-8cfa-4de4-b0ea-7651f7297dba.png)
+
+Health_Insurance.py: 
+"""
+@author: Imane BH
+"""
+
+import streamlit as st
+import joblib
 
 
+def main():
+    html_temp = """
+    <div style="background-color:lightblue;padding:16px">
+    <h2 style="color:black";text-align:center> Health Insurance Cost Prediction Using ML</h2>
+    </div>
+    
+    """
+    
+    st.markdown(html_temp,unsafe_allow_html=True)
+    
+    model = joblib.load('model_joblib_gr')
+    
+    p1 = st.slider('Enter Your Age',18,100)
+       
+    s1 = st.selectbox('Sex',('Male','Female'))
+    # for prediction it requires numerical values
+    if s1=='Male':
+        p2=1
+    else:
+        p2=0
+    p3 = st.number_input("Enter Your BMI Value")
+    
+    p4 = st.slider("Enter Number of Children",0,4)
+    
+    s2 = st.selectbox("Smoker",("Yes","No"))
+    
+    #again with string values needs to use numerical values
+    if s2=='Yes':
+        p5=1
+    else:
+        p5=0
+    
+    p6 = st.slider("Enter Your Region",1,4)
+    
+    # for the button predict
+    if st.button('Predict'):
+        pred= model.predict([[p1,p2,p3,p4,p5,p6]])
+        
+        st.balloons()
+        st.success('Your Insurance Cost is {}http://localhost:8501/'.format(round(pred[0],2)))
+if _name_== '_main_':
+    main()
 
+Now the app will run locally and be available via the URL :http://localhost:8501/
+But to share it, __Heroku Account__ allows deploying the prediction costs to the web.
 
-
+to Setup Heroku Account, first need to register then install the Heroku Command Line Interface (CLI). You use the CLI to manage and scale your applications, provision add-ons, view your application logs, and run your application locally.
 
 
 
