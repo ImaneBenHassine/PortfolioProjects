@@ -100,7 +100,17 @@ def main():
     else:
         p5=0
     
-    p6 = st.slider("Enter Your Region",1,4)
+    p6 = st.slider("Enter Your Region",1,4) #or we can use this next alternative to show the label of region instead of just numbers
+    s3=st.selectbox("Region",("southwest","southeast","northwest","northeast"))
+    
+    if s3=="southwest":
+        p6=1
+    elif s3=="southeast":
+        p6=2
+    elif s3=="northwest":
+        p6=3
+    elif s3=="northeast":
+        p6=4
     
     # for the button predict
     if st.button('Predict'):
@@ -112,9 +122,16 @@ if _name_== '_main_':
     main()
 
 Now the app will run locally and be available via the URL :http://localhost:8501/
+
+![st predict](https://user-images.githubusercontent.com/26963240/141681470-064f59a5-f241-4ae0-96a6-9820e4c9cc24.png)
+
+
 But to share it, __Heroku Account__ allows deploying the prediction costs to the web.
 
 to Setup Heroku Account, first need to register then install the Heroku Command Line Interface (CLI). You use the CLI to manage and scale your applications, provision add-ons, view your application logs, and run your application locally.
 
 
-
+requirements.txt :
+      pip install pipreqs 
+to create the requirement file run inside project repo
+       
