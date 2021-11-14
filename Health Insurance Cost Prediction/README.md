@@ -5,7 +5,7 @@ This is the big question of our projects : Which Factors Influence the Price of 
 Many factors that affects how much we pay for health insurance are not within our control and that's the Impact of Medicine to our Wallet.
 
 ### Data Source 
-And today we will explore a data set dedicated to the cost of treatment of different patients xhere "Charge" is the dependent feature and here are our independent feature or factors that affect how much health insurance premiums cost :
+And today we will explore a data set dedicated to the cost of treatment of different patients where "Charge" is the dependent feature and here are our independent feature or factors that affect how much health insurance premiums cost :
 
  - age: age of primary beneficiary
 
@@ -19,6 +19,7 @@ And today we will explore a data set dedicated to the cost of treatment of diffe
  - smoker: Smoking
 
  - region: the beneficiary's residential area in the US, northeast, southeast, southwest, northwest
+ 
 ### Steps
 
 - 1- Importing Libraries
