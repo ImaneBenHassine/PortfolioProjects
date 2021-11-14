@@ -59,23 +59,22 @@ For now it contains only the html header in the main(), bu runing streamlit run 
 
 ![run health st](https://user-images.githubusercontent.com/26963240/141482709-3025e045-8cfa-4de4-b0ea-7651f7297dba.png)
 
-Health_Insurance.py: 
-"""
-@author: Imane BH
-"""
-
-import streamlit as st
-import joblib
+those next lines in Health_Insurance.py will create the same shape of the GUI created with Python Tkinter package 
 
 
-def main():
+     """
+      @author: Imane BH
+     """
+    import streamlit as st
+    import joblib
+    def main():
+    
     html_temp = """
     <div style="background-color:lightblue;padding:16px">
     <h2 style="color:black";text-align:center> Health Insurance Cost Prediction Using ML</h2>
-    </div>
-    
+    </div
+ 
     """
-    
     st.markdown(html_temp,unsafe_allow_html=True)
     
     model = joblib.load('model_joblib_gr')
