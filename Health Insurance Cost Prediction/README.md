@@ -45,9 +45,9 @@ The next step will be creation a Web App for this ML algorithm so any one can us
 
 # Web App for ML
 - using Streamlit which is an open source Python library that turns data scripts into shareable web apps in minutes.
-- using Anaconda Spyder as Python IDE because all the library for machine learning and data science are pre-install
+- using Anaconda Spyder as Python IDE because all the library for machine learning and data science are pre-installed
 
-To install Streamlit run in Anaconda prompt : 
+To install __Streamlit__ run in Anaconda prompt : 
 
           pip install streamlit
           streamlit hello # to check demo app of streamlit
@@ -127,15 +127,27 @@ Now the app will run locally and be available via the URL :http://localhost:8501
 
 But to share it, __Heroku Account__ allows deploying the prediction costs to the web.
 
-to Setup Heroku Account, first need to register then install the Heroku Command Line Interface (CLI). You use the CLI to manage and scale your applications, provision add-ons, view your application logs, and run your application locally.
+to Setup Heroku Account, first need to register then install the __Heroku Command Line Interface (CLI)__. You use the CLI to manage and scale your applications, provision add-ons, view your application logs, and run your application locally.
 
 
-- requirements.txt :to create the requirement file run inside project repo
+- __requirements.txt__ :to create the requirement file run inside project repo
 
        pip install pipreqs 
 
-- setup.sh : create a txt.file and then save it as .sh it'is s streamlit folder with credentials.toml and a congif.tom file
+- __setup.sh__ : create a txt.file and then save it as .sh it'is s streamlit folder with credentials.toml and a congif.tom file
 
-- Prcofile 
+- __Prcofile__ : is used to first execute the setup.sh and then call streamlit to run the application 
+
+           web: sh setup.sh && streamlit run Health_Insurance.py
      
-                 
+Push the apllication to Heroku by using those commands 
+
+          git init
+          heroku login
+          heroku create surveyresults
+          git add .
+          git commit -am "start app"
+          git push heroku master
+
+At this level i've got en error : ModuleNotFoundError: No module named 'sklearn' because creating the requirements.txt didn't not consider all the packages used so i had to add it manually by checking the version running 
+          pip list
