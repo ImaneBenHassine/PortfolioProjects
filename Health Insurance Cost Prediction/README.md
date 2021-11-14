@@ -130,7 +130,12 @@ But to share it, __Heroku Account__ allows deploying the prediction costs to the
 to Setup Heroku Account, first need to register then install the Heroku Command Line Interface (CLI). You use the CLI to manage and scale your applications, provision add-ons, view your application logs, and run your application locally.
 
 
-requirements.txt :
-      pip install pipreqs 
-to create the requirement file run inside project repo
-       
+- requirements.txt :to create the requirement file run inside project repo
+
+       pip install pipreqs 
+
+- setup.sh : create a txt.file and then save it as .sh it'is s streamlit folder with credentials.toml and a congif.tom file
+
+- Prcofile 
+     
+                 
