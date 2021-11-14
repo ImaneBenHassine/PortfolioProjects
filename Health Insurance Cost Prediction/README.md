@@ -41,7 +41,7 @@ Finally, we create a Graphical User Interface using Tkinter package where we ent
 
 ![insurance](https://user-images.githubusercontent.com/26963240/140522884-c97e8c43-fce3-4504-bfe1-35b87c19918b.png)
 
-The next step will be creation a Web App for this ML algorithm so any one can use it and make prediction of Health Insurance Cost.
+The next step will be the creation of a Web App for this ML algorithm so any one can use it and make prediction of Health Insurance Cost using __Streamlit__ and __Heroku__
 
 # Web App for ML
 - using Streamlit which is an open source Python library that turns data scripts into shareable web apps in minutes.
