@@ -4,6 +4,8 @@ This is the big question of our projects : Which Factors Influence the Price of 
 
 Many factors that affects how much we pay for health insurance are not within our control and that's the Impact of Medicine to our Wallet.
 
+the final result of the web app is here : https://health-cost-prediction.herokuapp.com/
+
 ### Data Source 
 And today we will explore a data set dedicated to the cost of treatment of different patients where "Charge" is the dependent feature and here are our independent feature or factors that affect how much health insurance premiums cost :
 
