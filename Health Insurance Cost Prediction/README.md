@@ -47,8 +47,9 @@ Finally, we create a Graphical User Interface using Tkinter package where we ent
 The next step will be the creation of a Web App for this ML algorithm so any one can use it and make prediction of Health Insurance Cost using __Streamlit__ and __Heroku__
 
 # Web App for ML
-- using Streamlit which is an open source Python library that turns data scripts into shareable web apps in minutes.
+- using __Streamlit__ which is an open source Python library that turns data scripts into shareable web apps in minutes.
 - using Anaconda Spyder as Python IDE because all the library for machine learning and data science are pre-installed
+- using __Heroku__ a platform as a service (PaaS) that enables developers to build, run, and operate applications entirely in the cloud.
 
 To install __Streamlit__ run in Anaconda prompt : 
 
