@@ -2,7 +2,7 @@
 
 This is the big question of our projects : Which Factors Influence the Price of Health Insurance?
 
-Many factors that affect how much we pay for health insurance are not within our control and that's the Impact of Medicine to our Wallet.
+Many factors that affects how much we pay for health insurance are not within our control and that's the Impact of Medicine to our Wallet.
 
 ### Data Source 
 And today we will explore a data set dedicated to the cost of treatment of different patients xhere "Charge" is the dependent feature and here are our independent feature or factors that affect how much health insurance premiums cost :
@@ -136,7 +136,7 @@ to Setup Heroku Account, first need to register then install the __Heroku Comman
 
 - __setup.sh__ : create a txt.file and then save it as .sh it'is s streamlit folder with credentials.toml and a congif.tom file
 
-- __Prcofile__ : is used to first execute the setup.sh and then call streamlit to run the application 
+- __Procfile__ : is used to first execute the setup.sh and then call streamlit to run the application 
 
            web: sh setup.sh && streamlit run Health_Insurance.py
      
@@ -150,4 +150,19 @@ Push the apllication to Heroku by using those commands
           git push heroku master
 
 At this level i've got en error : ModuleNotFoundError: No module named 'sklearn' because creating the requirements.txt didn't not consider all the packages used so i had to add it manually by checking the version running 
+
           pip list
+          
+Now the app is life on the web : https://health-cost-prediction.herokuapp.com/
+![st cost final](https://user-images.githubusercontent.com/26963240/141685091-df10def8-a93d-4c18-b945-a69b6c34d0c8.png)
+
+to keep the application free set scaling dynos to 1: 
+
+           heroku ps:scale web=1
+           
+### Kaffeine
+As we are using the free tier of heroku it will set the application into a sleeping mode after 30 minutes of inactivity this is not a problem at all but it just takes some time whenever loading the page again ao to avoid that hiroku is falling into the sleeping mode Kaffeine ping it every 30 minutes so that the application stays awake by entering the app name here https://kaffeine.herokuapp.com/
+
+# Conslusion 
+
+In this project I went over the process of deploying a Streamlit app using Heroku, a platform as a service (PaaS) allowing you to run applications on the cloud. It achieves this by allowing you to create a website by only adding a few Streamlit function calls to an existing python projects where i create a machine learning algorithm to predict the Price of Health Insurance based on the influence of other factors.
