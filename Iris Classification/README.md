@@ -1,8 +1,9 @@
-The best small project to start with on a new tool is the classification of iris flowers. It is a multi-class classification problem, allowing to practice supervised learning algorithm.
-
-Data Source : https://archive.ics.uci.edu/ml/datasets/Iris
+The best small project to start with on a new tool is the classification of iris flowers. It is a multi-class classification problem, allowing to practice supervised learning algorithm in which models learn using training data, and apply those learnings to new data.
 
 ### Attribute Information:
+The dataset is famous almost as the “hello world” dataset in machine learning and statistics by pretty much everyone, contains 150 observations of iris flowers of 4 columns of measurements of the flowers in centimeters and the last column is the species of the flower observed.
+
+Data Source : https://archive.ics.uci.edu/ml/datasets/Iris
 
 1. sepal length in cm
 2. sepal width in cm
